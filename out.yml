@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Lambda application that calls the Lambda API.
+Resources:
+  function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: s3://lambda-artifacts-20922b05d39a19e3/e96a2d4365cdb8a95837085fc2f9e177
+      Description: Call the AWS Lambda API
+      Timeout: 10
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      Tracing: Active
+      Layers:
+      - Ref: libs
+  libs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: braze-rudder-nodejs-lib
+      Description: Dependencies for the Braze-Rudder app.
+      ContentUri: s3://lambda-artifacts-20922b05d39a19e3/b68c6a80cb4a9373900f44b219c4c206
+      CompatibleRuntimes:
+      - nodejs12.x
