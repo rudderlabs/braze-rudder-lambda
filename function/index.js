@@ -41,7 +41,7 @@ exports.handler = async function(event, context) {
 	*/
 
 	const client = new Analytics(process.env.rudder_write_key,  process.env.rudder_dataplane_url);
-	const anonymousId = process.env.rudder_anonymous_id;
+	//const anonymousId = process.env.rudder_anonymous_id;
 
 	
 	try {
@@ -55,8 +55,8 @@ exports.handler = async function(event, context) {
 		.on('data', function (payload) {
 			try {
 				var eventName = srcKey.split("/")[1].split("=")[1];
-				console.log(eventName + ' : ' + JSON.stringify(payload));
-				client.track({"event" : eventName, "anonymousId" : anonymousId, "properties" :  payload});
+				console.log(payload.user_id + ' : ' + eventName + ' : ' + JSON.stringify(payload));
+				client.track({"event" : eventName, "anonymousId" : payload.user_id, "properties" :  payload});
 				//console.log(JSON.stringify(payload));
 				console.log("Rudder Success");
 			} catch (err){

@@ -9,6 +9,5 @@ An S3 trigger should be created for this function (sample instructions at https:
 Following Environment Variables should be created for this function
 *	`rudder_write_key` - WriteKey for the Rudder Source you want to used
 *	`rudder_dataplane_url` - URL where the Rudder Server is running
-*	`rudder_anonymous_id` - Anonymous ID to be used for Rudder events triggered by this Lambda function
 
 
