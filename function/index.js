@@ -87,8 +87,7 @@ exports.handler = async function(event, context) {
 				
 				
 
-				client.track({"id": payload["id"], 
-								"event" : eventName, 
+				client.track({"event" : eventName, 
 								"eventText" : eventText, 
 								"anonymousId" : payload.user_id, 
 								"userId" : payload.user_id,
