@@ -56,8 +56,6 @@ exports.handler = async function(event, context) {
 			try {
 				//var eventName = srcKey.split("/")[1].split("=")[1];
 				var eventName = "email_sent";
-				var eventText = "Email Sent";
-				//console.log(payload.user_id + ' : ' + eventName + ' : ' + JSON.stringify(payload));
 				var propertiesObj = {};
 				
 				//populate 'properties' from Avro payload
