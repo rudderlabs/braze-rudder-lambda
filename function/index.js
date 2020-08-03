@@ -54,9 +54,53 @@ exports.handler = async function(event, context) {
 		avro.createFileDecoder('/tmp/input.avro')
 		.on('data', function (payload) {
 			try {
-				var eventName = srcKey.split("/")[1].split("=")[1];
-				console.log(payload.user_id + ' : ' + eventName + ' : ' + JSON.stringify(payload));
-				client.track({"event" : eventName, "anonymousId" : payload.user_id, "properties" :  payload});
+				//var eventName = srcKey.split("/")[1].split("=")[1];
+				var eventName = "email_sent";
+				var eventText = "Email Sent";
+				//console.log(payload.user_id + ' : ' + eventName + ' : ' + JSON.stringify(payload));
+				var propertiesObj = {};
+				
+				//populate 'properties' from Avro payload
+				propertiesObj["campaign_id"] = payload.campaign_id;
+				propertiesObj["campaign_name"] = payload.campaign_name;
+				propertiesObj["canvas_id"] = payload.canvas_id;
+				propertiesObj["canvas_name"] = payload.canvas_name;
+				propertiesObj["canvas_step_id"] = payload.canvas_step_id;
+				propertiesObj["canvas_step_name"] = payload.canvas_step_name;
+				propertiesObj["canvas_variation_id"] = payload.canvas_variation_id;
+				propertiesObj["canvas_variation_name"] = payload.canvas_variation_name;
+				propertiesObj["dispatch_id"] = payload.dispatch_id;
+				propertiesObj["message_variation_id"] = payload.message_variation_id;
+				
+				var contextObj = {}
+				//override context
+				contextObj["integrations"] = {}
+				contextObj["integrations"]["appboy"] = false;
+				contextObj["integrations"]["name"] = "appboy";
+				contextObj["integrations"]["version"] = "1.0.0";
+				contextObj["library"] = {}
+				contextObj["library"]["name"] = "analytics-node";
+				contextObj["library"]["version"] = "0.0.3";
+				contextObj["traits"] = {};
+				contextObj["traits"]["email"] = payload.email_address;
+				
+				//multiply payload 'time' by 1000 to convert to JS timestamp
+				var timestamp = new Date(Number(payload.time)*1000);
+				
+				
+
+				client.track({"id": payload["id"], 
+								"event" : eventName, 
+								"eventText" : eventText, 
+								"anonymousId" : payload.user_id, 
+								"userId" : payload.user_id,
+								"originalTimestamp" : timestamp,
+								"receivedAt" : timestamp,
+								"sentAt" : timestamp,
+								"timestamp" : timestamp,
+								"context" : contextObj,
+								"properties" :  propertiesObj});
+				
 				//console.log(JSON.stringify(payload));
 				console.log("Rudder Success");
 			} catch (err){
