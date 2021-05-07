@@ -10,7 +10,8 @@
     "@rudderstack/rudder-sdk-node": "0.0.3",
     "avsc": "^5.4.21",
     "aws-xray-sdk-core": "1.1.2",
-    "util": "^0.12.3"
+    "util": "^0.12.3",
+     "underscore": ">=1.12.1"
   },
   "scripts": {
     "test": "jest"
